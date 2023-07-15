@@ -1,33 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {BrowserRouter,Route,Routes} from "react-router-dom"
+import HomePage from './scenes/homePage/HomePage'
+import ProfilePage from './scenes/profilePage/ProfilePage'
+import LoginPage from './scenes/loginPage/LoginPage'
+import { useMemo } from 'react'
+import { useSelector } from 'react-redux'
+import {CssBaseline, ThemeProvider} from "@mui/material"
+import { createTheme } from '@mui/material/styles'
+import {themeSettings} from "./theme.js"
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const mode = useSelector((state)=> state.mode)
+  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode])
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          {/* juz to reset css */}
+          <CssBaseline/>
+          <Routes>
+            <Route path='/' element={<LoginPage/>}/>
+            <Route path='/home' element={<HomePage/>}/>
+            <Route path='/profile/:userId' element={<ProfilePage/>}/>
+          </Routes>
+          </ThemeProvider>
+      </BrowserRouter>
     </>
   )
 }
