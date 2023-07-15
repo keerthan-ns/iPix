@@ -8,8 +8,11 @@ import helmet from "helmet"
 import morgan from "morgan"
 import path from "path"
 import { fileURLToPath } from "url"
-import { error } from "console"
+import authRoutes from "./routes/auth.js"
+import userRoutes from "./routes/users.js"
+import postRoutes from "./routes/posts.js"
 import {register} from "./controllers/auth.js"
+import { verifyToken } from "./middleware/auth.js"
 
 // CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url)
@@ -41,6 +44,12 @@ const upload = multer({storage})
 
 // ROUTES WITH FILES
 app.post("/auth/register",upload.single("picture"),register)//register is termed as controller
+app.post("/posts",verifyToken)
+
+// routes
+app.use("/auth",authRoutes)
+app.use("/users",userRoutes)
+app.use("/posts",postRoutes)
 
 // MONGOOSE SETUP
 const PORT = process.env.PORT || 6001
