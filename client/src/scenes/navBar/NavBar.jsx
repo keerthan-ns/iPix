@@ -39,8 +39,8 @@ const NavBar = () => {
   const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
 
-  // const fullName = `${user?.firstName} ${user?.lastName}`;
-  const fullName = `${user}`?"sadasfs":`${user?.firstName}`;
+  const fullName = `${user?.firstName} ${user?.lastName}`;
+  // const fullName = `${user}`?"sadasfs":`${user?.firstName}`;
 
   return (
     <>
@@ -173,7 +173,7 @@ const NavBar = () => {
                   <MenuItem value={fullName}>
                     <Typography>{fullName}</Typography>
                   </MenuItem>
-                  <MenuItem onClick={() => dispatch(setLogout())}>
+                  <MenuItem onClick={() => {dispatch(setLogout());navigate("/")}}>
                     Log Out
                   </MenuItem>
                 </Select>
